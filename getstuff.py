@@ -4,7 +4,7 @@ import re
 
 funcmatcher = re.compile(r"^define.*@(.*)\(")
 blockmatcher = re.compile(r"^(\S+):")
-traceblockmatcher = re.compile(r"        \”(\S+).(\S+)\”,”)
+traceblockmatcher = re.compile(r"^        (\S+)\.(\S+),")
 instmatcher = re.compile(r"^  [^ \t\n\r\f\v\]]\S*")
 callmatcher = re.compile(r"^  (call|tail call).*%\S+\(")
 #dstartblock = "block_0x807111f.i"
@@ -25,7 +25,7 @@ def findtransitions( tgtfunc, tgtblock, callstr, tracefilename):
 			match = traceblockmatcher.match(line)
 			if match is not None:
 				nextfunc = match.group(1)
-				nextblock = match.block(2)
+				nextblock = match.group(2)
 			else:
 				nextfunc = None
 				nextblock = None
@@ -40,10 +40,10 @@ def findtransitions( tgtfunc, tgtblock, callstr, tracefilename):
 				#look for transition out of function from callsite
 				if nextblock is None or nextblock != currblock:
 					#transition found
-					transitions.append(nextfunc + “.” + nextblock + “ [“ + lineidx + “]”
+					transitions.append(nextfunc + "." + nextblock + " [" + lineidx + "]")
  
 			
-			lineidx+=1
+			lineidx += 1
 	return transitions
 
 def processfiles( tracefilename, llvmfname, ofilename ):
@@ -86,9 +86,9 @@ def processfiles( tracefilename, llvmfname, ofilename ):
                 #        dfile.write(line);
                 #if line == callstr:
                     ofile.write(currfunction+"::"+block+"::" + str(funcidx) + "::" + str(blockidx) + "-->"+line)
-                    transitions = findtransitions( block , callstr, tracefilename):
+                    transitions = findtransitions(currfunction, block , line, tracefilename)
                     for item in transitions:
-			ofile.write(“\t” + item)
+			ofile.write("\t" + item)
                     continue
                 blockidx+=1
                 funcidx+=1
@@ -99,4 +99,4 @@ def processfiles( tracefilename, llvmfname, ofilename ):
     #    ofile.write("Couldn't find owning func::block for callstr:" + callstr)
   
 if __name__ == "__main__":
-    processfiles(argv[1], argv[2])
+    processfiles(argv[1], argv[2], argv[3])

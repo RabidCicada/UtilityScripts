@@ -4,6 +4,7 @@ import re
 
 funcmatcher = re.compile(r"^define.*@(.*)\(")
 blockmatcher = re.compile(r"^(\S+):")
+traceblockmatcher = re.compile(r"        \”(\S+).(\S+)\”,”)
 instmatcher = re.compile(r"^  [^ \t\n\r\f\v\]]\S*")
 callmatcher = re.compile(r"^  (call|tail call).*%\S+\(")
 #dstartblock = "block_0x807111f.i"
@@ -12,8 +13,38 @@ callmatcher = re.compile(r"^  (call|tail call).*%\S+\(")
 #debugactive = False
 
 
-def findtransition( callstr, tracefilename):
-    with open(tracefilename, 'r') as tfile:
+def findtransitions( tgtfunc, tgtblock, callstr, tracefilename):
+	currfunc = None
+	currblock = None
+	nextcall = None
+	nextblock = None
+	lineidx = 1
+	transitions = []
+	with open(tracefilename, 'r') as tfile:
+		for line in tfile:
+			match = traceblockmatcher.match(line)
+			if match is not None:
+				nextfunc = match.group(1)
+				nextblock = match.block(2)
+			else:
+				nextfunc = None
+				nextblock = None
+
+			if nextfunc is not None:
+				#start once we found a likely callsite
+				if nextfunc == tgtfunc and nextblock == tgtblock:
+					currfunc = tgtfunc
+					nextblock = tgtblock
+	
+			if currblock is not None:
+				#look for transition out of function from callsite
+				if nextblock is None or nextblock != currblock:
+					#transition found
+					transitions.append(nextfunc + “.” + nextblock + “ [“ + lineidx + “]”
+ 
+			
+			lineidx+=1
+	return transitions
 
 def processfiles( tracefilename, llvmfname, ofilename ):
     global debugactive
@@ -55,9 +86,9 @@ def processfiles( tracefilename, llvmfname, ofilename ):
                 #        dfile.write(line);
                 #if line == callstr:
                     ofile.write(currfunction+"::"+block+"::" + str(funcidx) + "::" + str(blockidx) + "-->"+line)
-                    findtransition( callstr, tracefilename):
-                    #found = True
-                    #break #found our string and have all info
+                    transitions = findtransitions( block , callstr, tracefilename):
+                    for item in transitions:
+			ofile.write(“\t” + item)
                     continue
                 blockidx+=1
                 funcidx+=1

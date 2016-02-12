@@ -1,5 +1,7 @@
 #!/bin/python
 #This script is used to debug where a regular expression fails
+#Content Stolen from http://code.activestate.com/recipes/475187-regular-expression-point-of-failure/
+
 import re
 def sub_re(pattern):
     for offset in range(len(pattern)+1,0,-1):

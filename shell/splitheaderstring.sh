@@ -1,7 +1,8 @@
 #!bin/bash
 #This requires a specially created version of fold that supports the -d<char>
 #option (avoid breaking on character) it was created by kyle stapp to facilitate
-# easy header file style split strings with fold.
+# easy header file style split strings with fold and lives here
+#https://github.com/RabidCicada/coreutils
 
 #It turns a normal xml document into something like below so that it can be read
 # and parsed inline as an xml document from withing a C++ file

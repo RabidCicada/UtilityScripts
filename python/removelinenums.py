@@ -1,3 +1,8 @@
+#!/bin/python
+#Removes simple line numbers from a file
+#Uses include removing numbering to allow more accuret compare vs another text
+#file
+
 from sys import argv
 from subprocess import call
 import re

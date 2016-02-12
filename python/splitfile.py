@@ -1,4 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/python
+#This script is used to split a file on a string match and create sequential
+#output files with a common prefix
+
 from sys import argv
 from subprocess import call
 import re

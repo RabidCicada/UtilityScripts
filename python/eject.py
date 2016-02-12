@@ -1,3 +1,7 @@
+#!/bin/python
+#This script will programmatically eject a removable storage drive for windows
+#It first dismounts teh filesystem then ejects the media
+
 import win32api, win32gui, win32con, win32file, struct
 
 FSCTL_LOCK_VOLUME = 0x0090018

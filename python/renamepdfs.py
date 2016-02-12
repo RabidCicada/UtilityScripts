@@ -1,3 +1,9 @@
+#!/bin/python
+
+#This script is used to parse through a pdf document as exported to text by
+#adobe pdf It looks through the text file for the key phrase and names the
+#original pdf document according to the key phrase.
+
 from sys import argv
 import os
 from subprocess import call

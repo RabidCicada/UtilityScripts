@@ -1,3 +1,6 @@
+#!/bin/python
+#This script was used to manipulate hex files for a microcontroller
+
 from sys import argv
 from subprocess import call
 from time import sleep

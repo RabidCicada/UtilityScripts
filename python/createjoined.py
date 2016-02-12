@@ -1,3 +1,7 @@
+#!/bin/python
+#This script will join two hex files using an arbitraty offset provided from the
+#command line using avr tools and srec_cat
+
 from sys import argv
 from subprocess import call
 from time import sleep

@@ -1,3 +1,7 @@
+#!/bin/python
+#This script, at one point, stripped some precursor stuff from a dissassembly to
+#allow a clean diff.
+
 from sys import argv
 from subprocess import call
 import re

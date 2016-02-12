@@ -1,3 +1,7 @@
+#!/bin/python
+#This script will report the location of the chosen icon file from the gtk
+#toolkit
+
 import gtk
 
 print "enter the icon name (case sensitive):"

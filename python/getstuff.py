@@ -3,7 +3,7 @@
 #!/bin/python
 #This script is to specific to be useful in general in current form but the idea
 #was that it is a multi state matching pile of junk that can match a particular
-#transition in a file.
+#transition in a file.  In this case, llvm disassembly files
 
 
 from sys import argv

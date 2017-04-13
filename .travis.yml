@@ -1,0 +1,56 @@
+sudo: required
+dist: trusty
+language: python
+python:
+    - 2.7
+    - 3.4
+    - 3.5
+    - pypy
+
+cache:
+    apt: true
+    pip: true
+    directories:
+        - $HOME/download-cache
+jdk:
+    - oraclejdk8
+
+addons:
+    apt_packages:
+        - binutils
+        - default-jdk
+        - oracle-java8-installer
+        - gdal-bin
+        - libgdal1h
+        - libgeos-c1
+        - libproj-dev
+        - libxapian22
+        - python-xapian
+        - wajig
+
+before_install:
+    - echo "The BeforeInstall"
+
+install:
+    - echo "The Install"
+
+before_script:
+    - echo "The BeforeScript"
+
+script:
+    - echo "The SCRIPT"
+    - java -version
+
+env:
+    matrix:
+        - DJANGO_VERSION=">=1.8,<1.9" VERSION_ES=">=1.0.0,<2.0.0"
+        - DJANGO_VERSION=">=1.9,<1.10" VERSION_ES=">=1.0.0,<2.0.0"
+        - DJANGO_VERSION=">=1.10,<1.11" VERSION_ES=">=1.0.0,<2.0.0"
+        - DJANGO_VERSION=">=1.8,<1.9" VERSION_ES=">=2.0.0,<3.0.0"
+        - DJANGO_VERSION=">=1.9,<1.10" VERSION_ES=">=2.0.0,<3.0.0"
+        - DJANGO_VERSION=">=1.10,<1.11" VERSION_ES=">=2.0.0,<3.0.0"
+        - DJANGO_VERSION=">=1.11,<1.12" VERSION_ES=">=2.0.0,<3.0.0"
+
+matrix:
+    allow_failures:
+        - python: 'pypy'

@@ -38,7 +38,7 @@ before_script:
     - echo "The BeforeScript"
 
 script:
-    - echo "The SCRIPT"
+    - echo "The SCRIPT!"
     - java -version
 
 env:

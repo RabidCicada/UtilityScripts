@@ -1,0 +1,20 @@
+# Setup ssh agent forwading and add your key to it.
+function sssh () {
+        eval $(ssh-agent)
+        ssh-add
+}
+
+# Mount a local directory onto a forieng system
+# The point of this function is to allow a tight dev cycle perhaps on a beefier machine
+# or one a partially deployed webstack where you are making many modifications continuously
+# The special piece is it allows a machine that normally can't reach your laptop/corporate machine
+# to reach back to you through an ssh forward to mount your local directory.
+# Doing it this way makes it much more graceful then having to manually futz with thing.
+function remotedev () {
+    SSHADDR=$1
+    SELFDIR=$(realpath $2)
+    RMNTPNT=$3
+    LOCALUSER=${USER:-${USERNAME:-${LOGNAME}}}
+    echo "Mounting $SELFDIR on $SSHADDR:$RMNTPNT"
+    ssh -t -AR 8989:localhost:22 $SSHADDR " mkdir -p $RMNTPNT; sshfs -p 8989 $LOCALUSER@localhost:$SELFDIR $RMNTPNT; PS1=\"[RemoteDev]$PS1\" bash"
+}

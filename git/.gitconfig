@@ -1,4 +1,0 @@
-[alias]
-	qp = !git add -u && git commit -m "quickpush" && git push origin
-	up = !git pull --rebase --prune $@ && git submodule update --init --recursive
-

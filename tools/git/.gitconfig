@@ -1,0 +1,6 @@
+[alias]
+	qp = !git add -u && git commit -m "quickpush" && git push origin
+	up = !git pull --rebase --prune $@ && git submodule update --init --recursive
+	qp = !git add -u && git commit -m "quickpush" && git push origin
+	lol = log --graph --decorate --pretty=oneline --abbrev-commit
+	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all

@@ -5,10 +5,15 @@ check-ssh-agent() {
     [ -S "$SSH_AUTH_SOCK" ] && { ssh-add -l >& /dev/null || [ $? -ne 2 ]; }
 }
 function sssh () {
+        KEY=${1:-$HOME/.ssh/id_rsa}
+        mkdir -p ~/.tmp
+        # Setup socket if brute force check fails
         check-ssh-agent || export SSH_AUTH_SOCK=~/.tmp/ssh-agent.sock
+        # Setup agent if brute force check fails
         check-ssh-agent || eval "$(ssh-agent -s -a ~/.tmp/ssh-agent.sock)" > /dev/null
+        # Add key if not already added
+        ssh-add -l | grep -q "$KEY" || ssh-add $KEY
 }
-
 
 # Mount a local directory onto a forieng system
 # The point of this function is to allow a tight dev cycle perhaps on a beefier machine
